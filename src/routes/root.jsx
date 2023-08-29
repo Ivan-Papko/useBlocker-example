@@ -1,4 +1,4 @@
-import {Outlet, NavLink, Link, useLoaderData, Form, redirect, useNavigation} from "react-router-dom";
+import {Outlet, NavLink, Link, useLoaderData, Form, redirect, useNavigation, useSubmit} from "react-router-dom";
 import { useEffect } from "react";
 import {getContacts, createContact} from "../contacts";
 
@@ -17,6 +17,8 @@ export async function action() {
 export default function Root() {
     const {contacts, q} = useLoaderData();
     const navigation = useNavigation();
+    const submit = useSubmit();
+
     useEffect(() => {
         document.getElementById("q").value = q;
     }, [q]);
@@ -33,6 +35,9 @@ export default function Root() {
                             type="search"
                             name="q"
                             defaultValue={q}
+                            onChange={(event) => {
+                                submit(event.currentTarget.form);
+                            }}
                         />
                         <div
                             id="search-spinner"
